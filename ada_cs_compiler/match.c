@@ -1,3 +1,4 @@
+/* this files matches the token with the syntax rules */
 #include "my_header.h"
 extern int in_char, c;
 int match(token a) {
