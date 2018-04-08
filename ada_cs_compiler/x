@@ -1,0 +1,5 @@
+BEGIN
+ID:=20;
+ID:=30;
+TEMP:=ID;
+END
