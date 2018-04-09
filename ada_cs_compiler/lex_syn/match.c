@@ -7,74 +7,74 @@ int match(token a) {
 		
 		case BEGIN:	
 			if(next_token() == BEGIN) {
-				//printf("MATCHED BEGIN\n");
+				printf("MATCHED BEGIN\n");
 				return 1;
 			}
 			break;
 			
 		case END:
 			if(!strcmp(token_buffer,"END")) {
-				//printf("MATCHED END\n");
+				printf("MATCHED END\n");
 				return 1;
 			}
 			else if(next_token() == END) {
-				//printf("MATCHED END\n");
+				printf("MATCHED END\n");
 				return 1;
 			}
 			break;
 
 		case ID:
 			if(check_reserved() == ID) {
-				//printf("MATCHED ID\n");
+				printf("MATCHED ID\n");
 				return 1;
 			}
 			break;
 
 		case LPAREN:
 			if(in_char == '(') {
-				//printf("MATCHED LPAREN\n");
+				printf("MATCHED LPAREN\n");
 				return 1;
 			}
 			break;
 			
 		case RPAREN:
 			if(in_char == ')') {
-				//printf("MATCHED RPAREN\n");
+				printf("MATCHED RPAREN\n");
 				return 1;
 			}
 			break;
 
 		case COMMA:
 			if(in_char == ',') {
-				//printf("MATCHED COMMA \n");
+				printf("MATCHED COMMA \n");
 				return 1;
 			}
 			break;
 		
 		case SEMICOLON:
 			if(in_char == ';') {
-				//printf("MATCHED SEMICOLON\n");
+				printf("MATCHED SEMICOLON\n");
 				return 1;
 			}
 			break;
 
 		case ASSIGNOP:
 			if(next_token() == ASSIGNOP) {
-				//printf("MATCHED ASSIGNOP\n");
+				printf("MATCHED ASSIGNOP\n");
 				return 1;
 			}
 			break;
 
 		case PLUSOP:
 			if(in_char == '+') {
-				//printf("MATCHED PLUSOP\n");
+				printf("MATCHED PLUSOP\n");
 				return 1;
 			}
 			break;
 
 		case MINUSOP:
 			if(in_char == '-' && c != '-') {
-				//printf("MATCHED MINUSOP\n");
+				printf("MATCHED MINUSOP\n");
 				return 1;
 			}
 			break;
@@ -86,7 +86,7 @@ int match(token a) {
 
 		case INTLITERAL:
 			if(atoi(token_buffer)) {
-				//printf("MATCHED INTLITERAL\n");
+				printf("MATCHED INTLITERAL\n");
 				return 1;
 			}
 			break;

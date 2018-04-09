@@ -1,22 +1,20 @@
 #include "my_header.h"
 
 void system_goal() {
-	//printf(" <system goal> -> <program> SCANEOF \n");
+	printf(" <system goal> -> <program> SCANEOF \n");
 	program();
-	finish();
-	match(SCANEOF);
+	//match(SCANEOF);
 }
 
 void program() {
-	//printf(" <program> -> BEGIN <statement> END \n");
-	start();
+	printf(" <program> -> BEGIN <statement> END \n");
 	match(BEGIN);
 	statement_list();
 	match(END);
 }
 
 void statement_list() {
-	//printf(" <statement> -> <statement> { <statement> } \n");
+	printf(" <statement> -> <statement> { <statement> } \n");
 	statement(NXTKN);	
 	while(1) {
 		switch(next_token()) {
@@ -31,20 +29,17 @@ void statement_list() {
 void statement(token t) {
 	if(t == NXTKN)
 		t = next_token();
-	expr_rec id;
-	expr_rec *res = (expr_rec*) malloc(sizeof(expr_rec));
+	
 	switch(t) {
 		case ID:	
-			//printf(" <statement> -> ID:=<expression>; \n");
-			id = process_id();
+			printf(" <statement> -> ID:=<expression>; \n");
 			match(ASSIGNOP);		
-			expression(res);
-			assign(id, *res);
+			expression();
 			match(SEMICOLON);
 			break;
 
 		case READ:
-			//printf(" <statement> -> READ(<id_list>) \n");
+			printf(" <statement> -> READ(<id_list>) \n");
 			t = next_token();
 			match(LPAREN);
 			id_list();
@@ -54,7 +49,7 @@ void statement(token t) {
 			break;
 
 		case WRITE:
-			//printf(" <statement> -> WRITE(<expr_list>) \n");
+			printf(" <statement> -> WRITE(<expr_list>) \n");
 			match(LPAREN);
 			expr_list();
 			match(RPAREN);
@@ -68,7 +63,7 @@ void statement(token t) {
 }
 
 void id_list() {
-	//printf(" <id list> -> ID{, ID} \n");
+	printf(" <id list> -> ID{, ID} \n");
 	(void)next_token();
 	match(ID);	
 	while(next_token() == COMMA) {
@@ -79,60 +74,51 @@ void id_list() {
 }
 
 void expr_list() {
-	//printf(" <expr list> -> <expression>{, <expression>} \n");
-	expr_rec *a;
-	expression(a);
+	printf(" <expr list> -> <expression>{, <expression>} \n");
+	expression();
 	while(next_token() == COMMA) {
-		expression(a);	
+		expression();	
 	}
 }
 
-void expression(expr_rec *result) {
-	static expr_rec left_operand, right_operand;
-	op_rec op;
-	//printf(" <expression> -> <primary>{<add op><primary>} \n");
-	primary(&left_operand);
+void expression() {
+	printf(" <expression> -> <primary>{<add op><primary>} \n");
+	primary();
 	token t = next_token();	
 	while(t == PLUSOP || t == MINUSOP) {
-		add_op(&op, t);
-		primary(&right_operand);
-		left_operand = gen_infix(left_operand, op, right_operand);
+		add_op(t);
+		primary();
 		t = next_token();
 	}
-
-	*result = left_operand;
 }
 
-void add_op(op_rec *op, token t) {
-	//printf(" <add op> -> + | - \n");
+void add_op(token t) {
+	printf(" <add op> -> + | - \n");
 	if(t == PLUSOP || t == MINUSOP) {
 		match(t);
 	}
 	else
 		syntax_error(t);
-	*op = process_op(t);
 }
 
-void primary(expr_rec *operand) {
+void primary() {
 	token t = next_token();	
 	switch(t) {
 		case LPAREN:
-			//printf(" <primary> -> (<expression>) \n");
+			printf(" <primary> -> (<expression>) \n");
 			match(LPAREN);
-			expression(operand);
+			expression();
 			match(RPAREN);
 			break;	
 
 		case ID:
-			//printf(" <primary> -> ID \n");
+			printf(" <primary> -> ID \n");
 			match(ID);
-			*operand = process_id();
 			break;
 
 		case INTLITERAL:
-			//printf(" <primary> -> INTLITERAL \n");
+			printf(" <primary> -> INTLITERAL \n");
 			match(INTLITERAL);
-			*operand = process_literal();
 			break;
 
 		default:
